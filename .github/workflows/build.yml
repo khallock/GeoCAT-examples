@@ -26,3 +26,7 @@ jobs:
         conda info
         conda list
         make html
+    - name: Verify that a webpage exists for each script
+      shell: bash -l {0}
+      run: |
+        find Plots -name "NCL_*.py" | cut -d/ -f2- | while read pyscript; do html=_build/html/gallery/${pyscript%.py}.html; if [ ! -e ${html} ]; then exit 1; fi; done
