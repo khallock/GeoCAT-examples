@@ -29,4 +29,5 @@ jobs:
     - name: Verify that a webpage exists for each script
       shell: bash -l {0}
       run: |
-        find Plots -name "NCL_*.py" | cut -d/ -f2- | while read pyscript; do html=_build/html/gallery/${pyscript%.py}.html; if [ ! -e ${html} ]; then exit 1; fi; done
+        rm _build/html/gallery/Polygons/NCL_polyg_4.html
+        missing=0; for pyscript in $(find Plots -name "NCL_*.py" | cut -d/ -f2- | xargs); do html=_build/html/gallery/${pyscript%.py}.html; if [ ! -e ${html} ]; then missing=$(($missing + 1)); echo "No webpage generated for example ${pyscript}"; fi; done; echo $missing; exit ${missing}
